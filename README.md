@@ -25,7 +25,7 @@ WeChatAudioHelper 是一个轻量级 Windows 本地工具，用来解决微信�
 
 这个项目从需求整理、代码实现、README、SEO 优化到发布 GitHub，基本都是全程 AI 辅助
 完成的。开发过程中使用了由[实惠 + 稳定的中转站](https://cli.999554.xyz/)提供的
-API 服务。算是一个小小的隐藏广告，也顺手记录一下这个项目本身就是 AI 开发工作流的产物。
+API 服务，也顺手记录一下这个项目本身就是 AI 开发工作流的产物。
 
 ## 功能
 
@@ -146,8 +146,8 @@ WeChat recording stops.
 This project, including requirement shaping, implementation, README writing, SEO
 cleanup, and GitHub publishing, was built almost entirely with AI assistance. The
 development process used API services from the affordable and stable relay
-service [cli.999554.xyz](https://cli.999554.xyz/). This is a tiny hidden ad, and
-also a note that the project itself is a product of an AI development workflow.
+service [cli.999554.xyz](https://cli.999554.xyz/). It is also a note that the
+project itself is a product of an AI development workflow.
 
 ## Features
 
