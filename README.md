@@ -11,9 +11,17 @@ helper, PowerShell audio session, 微信音量恢复, 微信语音输入音量�
 
 ## Why
 
-On some Windows systems, WeChat voice input can lower the master volume or the
-WeChat audio session volume and leave it low after recording ends. This tool
-keeps a recent safe volume baseline and restores it when WeChat recording stops.
+After I started doing more vibe coding, I tried a lot of voice input tools and
+eventually found that WeChat voice input still worked best for me. The annoying
+part was that when I listened to music and pressed the WeChat voice input
+shortcut, WeChat would lower the volume to 5% and sometimes never restore it.
+
+I built this small helper with AI to work around that problem. I am not sure
+whether this is only my setup or a common WeChat/Windows behavior, but I hope it
+can remove a small daily frustration for people who run into the same thing.
+
+Technically, the helper keeps a recent safe volume baseline and restores it when
+WeChat recording stops.
 
 ## Features
 
@@ -119,9 +127,16 @@ Windows 音频恢复、PowerShell 音频会话、WeChat volume restore.
 
 ## 为什么需要它
 
-某些 Windows 环境下，微信语音输入会把系统主音量或微信自己的混音器音量压低，
-录音结束后却不恢复。这个工具会持续记录最近一次非录音状态下的安全音量基线，
-并在检测到微信录音结束后自动恢复。
+自从我开始接触 vibe coding 之后，试过很多语音输入相关的软件，最后发现对我来说
+还是微信语音输入最好用。麻烦的是，当我一边听歌一边用微信语音输入时，按下快捷键后，
+微信会把音量压到 5%，而且有时候不会自己回弹。
+
+所以我通过 AI 开发了这个小插件，用来绕过这个问题。我不确定这是我个人环境的问题，
+还是大家都会遇到的微信/Windows 行为，但如果你也被这个问题打断过，它应该能解决掉
+一部分困扰。
+
+技术上，它会持续记录最近一次非录音状态下的安全音量基线，并在检测到微信录音结束后
+自动恢复。
 
 ## 功能
 
