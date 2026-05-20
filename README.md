@@ -1,30 +1,31 @@
 # WeChatAudioHelper
 
-WeChatAudioHelper is a small local Windows utility for recovering system and
-WeChat mixer volume after WeChat voice input changes the volume unexpectedly.
+**English** | [中文](#中文)
 
-The core logic lives in `WeChatAudioHelper.ps1`. The optional WinForms tray
-shell starts and supervises the script, provides a tray menu, and can register
-the app for current-user startup.
+WeChatAudioHelper is a lightweight Windows utility that automatically restores
+system volume and WeChat mixer volume after WeChat voice input or voice messages
+unexpectedly lower the volume.
+
+Keywords: WeChat volume restore, WeChat voice input volume fix, Windows audio
+helper, PowerShell audio session, 微信音量恢复, 微信语音输入音量变小, 微信麦克风音量修复.
+
+## Why
+
+On some Windows systems, WeChat voice input can lower the master volume or the
+WeChat audio session volume and leave it low after recording ends. This tool
+keeps a recent safe volume baseline and restores it when WeChat recording stops.
 
 ## Features
 
-- Records the latest non-recording system master volume as the restore baseline.
-- Records WeChat audio session volume from the Windows mixer.
-- Detects active WeChat capture sessions and restores volume after recording ends.
+- Restores Windows system master volume after WeChat recording ends.
+- Restores WeChat mixer session volume.
+- Detects WeChat capture sessions from the default recording device.
+- Runs locally with no network service and no account login.
+- Provides a PowerShell core script plus an optional WinForms tray shell.
+- Supports current-user startup from the tray menu.
+- Caps script and tray logs at about 10 MB each, with one `.old` backup.
 - Does not intentionally lower volume.
 - Does not read or restore mute state, to avoid muting the system or WeChat by mistake.
-- Keeps script and tray logs capped at about 10 MB each, with one `.old` backup.
-
-## Files
-
-- `WeChatAudioHelper.ps1`: main audio monitoring and restore script.
-- `Program.cs`: WinForms tray shell source code.
-- `WeChatAudioHelper.csproj`: .NET project for building the tray shell.
-- `start-wechat-audio-helper.bat`: starts the tray shell when present, otherwise starts the script.
-
-Runtime files such as `*.log`, `*.old`, `bin/`, `obj/`, and local `WeChatAudioHelper.exe`
-builds are intentionally ignored by git.
 
 ## Requirements
 
@@ -33,9 +34,9 @@ builds are intentionally ignored by git.
 - WeChat desktop client
 - Optional for tray shell builds: .NET 6 SDK or newer with Windows Desktop support
 
-## Run
+## Quick Start
 
-Start the helper with:
+Start the helper:
 
 ```powershell
 .\start-wechat-audio-helper.bat
@@ -81,14 +82,15 @@ dotnet publish -c Release -r win-x64 --self-contained false /p:PublishSingleFile
 
 Place the built `WeChatAudioHelper.exe` next to `WeChatAudioHelper.ps1`.
 
-## Tray Shell
+## Project Files
 
-When `WeChatAudioHelper.exe` is available, `start-wechat-audio-helper.bat` starts
-the tray shell. The tray menu supports:
+- `WeChatAudioHelper.ps1`: main audio monitoring and restore script.
+- `Program.cs`: WinForms tray shell source code.
+- `WeChatAudioHelper.csproj`: .NET project for building the tray shell.
+- `start-wechat-audio-helper.bat`: starts the tray shell when present, otherwise starts the script.
 
-- `开机自启`: toggles current-user startup through
-  `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`.
-- `退出`: exits the tray shell and stops the background script process.
+Runtime files such as `*.log`, `*.old`, `bin/`, `obj/`, and local
+`WeChatAudioHelper.exe` builds are intentionally ignored by git.
 
 ## Known Limits
 
@@ -98,3 +100,112 @@ the tray shell. The tray menu supports:
 3. If the helper starts after recording already began, the first restore may not
    have a good pre-recording baseline.
 4. The tray shell depends on `WeChatAudioHelper.ps1` being next to the executable.
+
+## License
+
+MIT
+
+---
+
+## 中文
+
+[English](#wechataudiohelper) | **中文**
+
+WeChatAudioHelper 是一个轻量级 Windows 本地工具，用来解决微信语音输入、语音消息
+或录音结束后，系统音量/微信混音器音量被压低后没有自动恢复的问题。
+
+关键词：微信音量恢复、微信语音输入音量变小、微信麦克风音量修复、微信录音后音量变小、
+Windows 音频恢复、PowerShell 音频会话、WeChat volume restore.
+
+## 为什么需要它
+
+某些 Windows 环境下，微信语音输入会把系统主音量或微信自己的混音器音量压低，
+录音结束后却不恢复。这个工具会持续记录最近一次非录音状态下的安全音量基线，
+并在检测到微信录音结束后自动恢复。
+
+## 功能
+
+- 微信录音结束后自动恢复 Windows 系统主音量。
+- 自动恢复微信在系统混音器里的会话音量。
+- 通过默认录音设备检测微信 capture session。
+- 完全本地运行，不需要联网服务，不需要账号登录。
+- 提供 PowerShell 核心脚本，也提供可选的 WinForms 托盘壳。
+- 托盘菜单支持当前用户开机自启。
+- 脚本日志和托盘日志都限制在约 10MB，并保留一份 `.old` 旧日志。
+- 不会主动把音量压低。
+- 不读取也不恢复静音状态，避免误把系统或微信静音。
+
+## 环境要求
+
+- Windows
+- Windows PowerShell 5.1 或更新版本
+- 微信 Windows 桌面版
+- 如果要编译托盘版：需要带 Windows Desktop 支持的 .NET 6 SDK 或更新版本
+
+## 快速开始
+
+启动工具：
+
+```powershell
+.\start-wechat-audio-helper.bat
+```
+
+也可以直接运行 PowerShell 脚本：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\WeChatAudioHelper.ps1
+```
+
+运行一次自检：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\WeChatAudioHelper.ps1 -Once
+```
+
+自检会输出当前前台进程、识别到的微信 PID、是否检测到微信录音 capture session，
+以及是否已经拿到可恢复的音量基线。
+
+## 参数
+
+```powershell
+-PollIntervalMs 700
+-RestoreDelayMs 1200
+-ProcessNames Weixin,WeChat,WeChatApp,WeChatAppCore
+```
+
+## 编译托盘版
+
+安装 .NET SDK 后执行：
+
+```powershell
+dotnet build -c Release
+```
+
+发布单文件 Windows 可执行程序：
+
+```powershell
+dotnet publish -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true
+```
+
+把编译出的 `WeChatAudioHelper.exe` 放在 `WeChatAudioHelper.ps1` 旁边即可。
+
+## 项目文件
+
+- `WeChatAudioHelper.ps1`：核心音频监听与恢复脚本。
+- `Program.cs`：WinForms 托盘壳源码。
+- `WeChatAudioHelper.csproj`：托盘壳 .NET 项目文件。
+- `start-wechat-audio-helper.bat`：启动脚本，优先启动托盘壳，没有 EXE 时启动 PowerShell 脚本。
+
+运行时文件，例如 `*.log`、`*.old`、`bin/`、`obj/` 和本地构建的
+`WeChatAudioHelper.exe`，都会被 git 忽略。
+
+## 已知限制
+
+1. 依赖微信在默认录音设备上暴露 active capture session。
+2. 依赖默认播放/录音设备；如果微信走了非默认设备，可能不准确。
+3. 如果工具在录音已经开始后才启动，第一次恢复可能没有准确的录音前基线。
+4. 托盘壳依赖 `WeChatAudioHelper.ps1` 和 EXE 放在同一目录。
+
+## 许可证
+
+MIT
